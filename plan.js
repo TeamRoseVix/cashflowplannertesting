@@ -60,17 +60,22 @@
 
   // ---------------------------------------------------------
   //  ACCOUNTS
-  //  Couples get one Spending account per partner, in each person's own name,
-  //  matching the Money Flywheel Mapper. Everything else is shared.
+  //  Couples get one Spending account per partner, in each person's own name
+  //  (matching the Money Flywheel Mapper), and can optionally add a shared
+  //  "Joint Spending" account on top. Everything else is shared.
   // ---------------------------------------------------------
   const shared = (s) => s.partner === "shared";
+  // How a couple arranges Spending. Couples always keep one Spending account each;
+  // "separate" is just those two (the default), "both" adds a shared Joint Spending
+  // account (his, hers AND ours). Solo plans always have a single Spending account.
+  const spendMode = (s) => (shared(s) ? (s.spendMode === "both" ? "both" : "separate") : "solo");
   function spendingAccounts(s) {
     const B = C.buckets.spending;
     if (!shared(s)) return [{ id: "spending", key: "spending", name: B.name, type: B.type }];
-    return [
-      { id: "spending", key: "spending", name: `${B.name} · ${trim(s.name) || "You"}`, type: B.type },
-      { id: "spending2", key: "spending", name: `${B.name} · ${trim(s.partnerName) || "Partner"}`, type: B.type },
-    ];
+    const you =   { id: "spending",      key: "spending", name: `${B.name} · ${trim(s.name) || "You"}`,            type: B.type };
+    const them =  { id: "spending2",     key: "spending", name: `${B.name} · ${trim(s.partnerName) || "Partner"}`, type: B.type };
+    const joint = { id: "spendingJoint", key: "spending", name: `Joint ${B.name}`,                                 type: B.type };
+    return spendMode(s) === "both" ? [you, them, joint] : [you, them];
   }
   function accounts(s) {
     const B = C.buckets;
@@ -211,5 +216,5 @@
   const csv = (s) => table(s).map((row) => row.map(csvCell).join(",")).join("\r\n");
   const tsv = (s) => table(s).map((row) => row.map((v) => String(v == null ? "" : v).replace(/[\t\n]/g, " ")).join("\t")).join("\n");
 
-  window.PLANNER = { money, round2, up, fmt, fmt0, fmtSmart, pct, fmtPct, trim, possessive, factor, upcomingMonthly, upcomingListTotal, upcomingSuggested, upcomingStuck, upcomingAmount, onCard, cardTotal, monthlyOf, sumMonthly, shared, spendingAccounts, accounts, planTitle, totals, arrows, plan, accountLabel, table, csv, tsv };
+  window.PLANNER = { money, round2, up, fmt, fmt0, fmtSmart, pct, fmtPct, trim, possessive, factor, upcomingMonthly, upcomingListTotal, upcomingSuggested, upcomingStuck, upcomingAmount, onCard, cardTotal, monthlyOf, sumMonthly, shared, spendMode, spendingAccounts, accounts, planTitle, totals, arrows, plan, accountLabel, table, csv, tsv };
 })();

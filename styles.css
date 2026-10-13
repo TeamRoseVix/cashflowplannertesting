@@ -347,6 +347,9 @@ details.more > div { margin-top: 10px; }
 .legend .warn { color: var(--coral-ink); font-weight: 700; }
 
 /* --- spending inputs --- */
+.spendmode { margin: 4px 0 18px; }
+.spendmode-q { font-family: var(--display); font-weight: 600; font-size: 14px; margin: 0 0 10px; }
+.spendmode-opts { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
 .spendgrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .spend { display: grid; gap: 8px; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 14px; }
 .spend .nm { font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }

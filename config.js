@@ -32,7 +32,8 @@ window.PLANNER_CONFIG = {
   // ---- The accounts -------------------------------------------
   // Name and type match the boxes on the Money Flywheel map. "what" is the one-line
   // reminder shown on that bucket's screen (and under Spending on the balance screen).
-  // Spending for couples is split into two accounts automatically, one per partner.
+  // Couples always get one Spending account each; on the Spending screen they can also
+  // add a shared "Joint Spending" account (his, hers AND ours).
   hub: { name: "Hub", type: "Checking" },
   buckets: {
     bills: {

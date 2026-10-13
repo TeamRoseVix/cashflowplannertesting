@@ -4,7 +4,7 @@
 //    1. you          first name, solo or shared, partner's name
 //    2. income       what lands in the Hub each month
 //    3. bills        the list of autopays, converted to monthly
-//    4. spending     the monthly Spending transfer (one per partner)
+//    4. spending     the monthly Spending transfer (couples: separate, joint, or both)
 //    5. upcoming     the list of irregular costs, converted to monthly
 //    6. balance      the four buckets against take-home pay; Financial
 //                    Goals is the remainder; the member can't finish while over
@@ -22,7 +22,7 @@
   //  STATE (saved in the member's browser only)
   // ---------------------------------------------------------
   const STORE = "cfp_state_v1";
-  const blank = () => ({ name: "", partner: "", partnerName: "", incomes: [], bills: [], cardDay: "", spending: {}, upcoming: [], upcomingAmount: "", goalName: "", accounts: {}, step: 0, reached: 0 });
+  const blank = () => ({ name: "", partner: "", partnerName: "", spendMode: "separate", incomes: [], bills: [], cardDay: "", spending: {}, upcoming: [], upcomingAmount: "", goalName: "", accounts: {}, step: 0, reached: 0 });
   let state = blank();
   try { const saved = JSON.parse(localStorage.getItem(STORE) || "null"); if (saved && typeof saved === "object" && Array.isArray(saved.incomes)) state = { ...blank(), ...saved }; } catch (e) {}
   // Older saved plans: Upcoming rows had a cadence or a "needed by" mode; now they are yearly estimates.
@@ -181,7 +181,10 @@
     $$(".opt", panel).forEach((b) => b.addEventListener("click", () => {
       const was = state.partner;
       state.partner = b.dataset.v;
-      if (was !== state.partner) { delete state.spending.spending2; delete state.accounts.spending2; }
+      if (was !== state.partner) {
+        delete state.spending.spending2; delete state.accounts.spending2;
+        delete state.spending.spendingJoint; delete state.accounts.spendingJoint;
+      }
       save(); next();
     }));
     $("#back", panel).addEventListener("click", back);
@@ -365,6 +368,22 @@
   // ---------------------------------------------------------
   //  SCREEN: SPENDING
   // ---------------------------------------------------------
+  // The His / Hers / Joint chooser shown on the Spending screen for couples.
+  function spendModeHtml() {
+    const you = esc(P.trim(state.name) || "You");
+    const them = esc(P.trim(state.partnerName) || "your partner");
+    const mode = P.spendMode(state);
+    const opts = [
+      { v: "separate", t: "His & hers", s: `A Spending account each — ${you} and ${them}` },
+      { v: "both",     t: "His, hers & ours", s: `An account each, plus a shared Joint Spending account` },
+    ];
+    return `<div class="spendmode">
+        <p class="spendmode-q">How do you want to split Spending?</p>
+        <div class="options spendmode-opts">${opts.map((o) =>
+          `<button type="button" class="opt" data-mode="${o.v}" aria-pressed="${mode === o.v}"><span class="t">${esc(o.t)}</span><span class="s">${o.s}</span></button>`
+        ).join("")}</div>
+      </div>`;
+  }
   function renderSpending(panel) {
     const t = P.totals(state);
     const accs = P.spendingAccounts(state);
@@ -373,10 +392,16 @@
         <h2>${esc(C.questions.spending)}</h2>
         <p class="what">${esc(C.buckets.spending.what)}</p>
         ${C.tips.spending ? `<p class="tip">${esc(C.tips.spending)}</p>` : ""}
+        ${P.shared(state) ? spendModeHtml() : ""}
         <div class="tracker" id="tracker" data-stage="spending">${trackerHtml("spending")}</div>
         <div class="spendgrid">${accs.map(per).join("")}</div>
       </div>${navHtml()}`;
     wireNav(panel, "spending");
+    $$("[data-mode]", panel).forEach((b) => b.addEventListener("click", () => {
+      if (P.spendMode(state) === b.dataset.mode) return;
+      state.spendMode = b.dataset.mode; save();
+      renderSpending(panel);   // amounts already entered are kept and reappear if the mode is switched back
+    }));
     $$("[data-acc]", panel).forEach((inp) => {
       inp.addEventListener("input", () => {
         state.spending[inp.dataset.acc] = inp.value; save();
@@ -519,7 +544,7 @@
   // ---------------------------------------------------------
   //  SCREEN: THE PLAN
   // ---------------------------------------------------------
-  // A donut of the four buckets (five for couples), same colors as the tracker. Each
+  // A donut of the four buckets (five or six for couples, by Spending split), same colors as the tracker. Each
   // slice is named with its share and amount in the list beside it, so color is never
   // the only way to tell slices apart. A 2px gap separates slices.
   function donutHtml(p) {

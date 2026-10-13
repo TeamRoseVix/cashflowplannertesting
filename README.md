@@ -23,8 +23,8 @@ each screen; the live training does that.
 ## The flow, one screen at a time
 
 1. **You.** First name. Then "Who is this plan for?": just me, or me and my partner
-   (shared accounts). A partner gets their own name and their own Spending account,
-   exactly like the Mapper's couple maps.
+   (shared accounts). A partner gets their own name, and the couple chooses how
+   Spending is arranged on the Spending screen (see below).
 2. **Income.** What will land in the Hub each month. Each row: name, when, amount
    and how often (every week, every 2 weeks, twice a month, monthly, yearly). The
    tool converts everything to a monthly number. Quick-add chips: take-home
@@ -39,10 +39,14 @@ each screen; the live training does that.
    the individual charges under it in grey, like Rose's sheet. Nothing is counted
    twice. Every bill needs its "When" (and the card line its due date) before
    Continue works; missing ones turn coral.
-4. **Spending.** One monthly amount (two for couples, one per partner), with the
-   weekly equivalent shown underneath and a running "what's left after Bills" line.
-   If Spending is more than what is left after Bills, the line turns coral and
-   Continue refuses until it is lowered.
+4. **Spending.** One monthly amount, with the weekly equivalent shown underneath and
+   a running "what's left after Bills" line. Couples always get one Spending account
+   each (in each person's name) and pick whether to add a shared one: **His & hers**
+   (two accounts — the default) or **His, hers & ours** (those two plus a shared
+   "Joint Spending" account). Switching keeps any amounts already typed. Each account
+   is its own box on the map and row in the plan/CSV; the Spending total is their sum.
+   If Spending is more than what is left after Bills, the line turns coral and Continue
+   refuses until it is lowered.
 5. **Upcoming.** A general cushion, not a ledger. The list is a thinking aid: each
    row is what for and roughly how much per year, divided by 12. Under it, one
    fixed number, **Your Upcoming transfer**, prefilled with the list's monthly total
