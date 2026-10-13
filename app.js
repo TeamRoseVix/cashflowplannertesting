@@ -368,14 +368,15 @@
   // ---------------------------------------------------------
   //  SCREEN: SPENDING
   // ---------------------------------------------------------
-  // The His / Hers / Joint chooser shown on the Spending screen for couples.
+  // The Spending chooser shown on the Spending screen for couples. The option
+  // labels use each person's name: "Rose + Alex" or "Rose + Alex + Joint".
   function spendModeHtml() {
-    const you = esc(P.trim(state.name) || "You");
-    const them = esc(P.trim(state.partnerName) || "your partner");
+    const you = P.trim(state.name) || "You";
+    const them = P.trim(state.partnerName) || "Partner";
     const mode = P.spendMode(state);
     const opts = [
-      { v: "separate", t: "His & hers", s: `A Spending account each — ${you} and ${them}` },
-      { v: "both",     t: "His, hers & ours", s: `An account each, plus a shared Joint Spending account` },
+      { v: "separate", t: `${you} + ${them}`,          s: "A Spending account each" },
+      { v: "both",     t: `${you} + ${them} + Joint`,  s: "An account each, plus a shared Joint Spending account" },
     ];
     return `<div class="spendmode">
         <p class="spendmode-q">How do you want to split Spending?</p>
