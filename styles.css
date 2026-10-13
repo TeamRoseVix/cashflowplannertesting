@@ -437,19 +437,19 @@ details.more > div { margin-top: 10px; }
 /* --- the map on the plan --- */
 .fmap { position: relative; display: grid; gap: 72px; padding: 6px 4px; }
 .fmap .fm-row { display: flex; justify-content: center; }
-.fmap .fm-buckets { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+.fmap .fm-buckets { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
 .fmap svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .fmap svg.links line { stroke: var(--line); stroke-width: 2; fill: none; }
 .fmap svg.links marker path.head { stroke: none; fill: var(--line); }
 .fmap svg.links rect.tagbg { fill: var(--card); stroke: none; }
 .fmap svg.links text.flow { font-family: var(--display); font-weight: 700; font-size: 13px; fill: var(--ink); }
-.fmap .node { position: relative; z-index: 1; background: var(--box); border: 2px solid var(--ink); border-radius: 14px; padding: 16px 14px; display: grid; gap: 4px; align-content: center; justify-items: center; text-align: center; }
-.fmap .node .name { font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; line-height: 1.35; }
-.fmap .node .type { font-family: var(--display); font-weight: 600; font-size: 10px; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; }
-.fmap .node .acct-row { margin-top: 6px; display: inline-flex; align-items: center; gap: 5px; max-width: 100%; }
+.fmap .node { position: relative; z-index: 1; min-width: 0; background: var(--box); border: 2px solid var(--ink); border-radius: 14px; padding: 16px 12px; display: grid; gap: 4px; align-content: center; justify-items: stretch; text-align: center; }
+.fmap .node .name { width: 100%; font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.3; overflow-wrap: anywhere; }
+.fmap .node .type { width: 100%; font-family: var(--display); font-weight: 600; font-size: 10px; color: var(--muted); letter-spacing: 0.16em; text-transform: uppercase; }
+.fmap .node .acct-row { margin-top: 6px; display: flex; width: 100%; min-width: 0; align-items: center; justify-content: center; gap: 5px; }
 .fmap .node .acct-row input { font: inherit; font-size: 12px; font-weight: 700; padding: 4px 6px; border: 1.5px dashed var(--navy); border-radius: 7px; background: var(--card); color: var(--ink); min-width: 0; }
-.fmap .node .acct-row input.bank { width: 96px; }
-.fmap .node .acct-row input.last4 { width: 52px; text-align: center; letter-spacing: 0.1em; }
+.fmap .node .acct-row input.bank { flex: 1 1 auto; width: auto; max-width: 96px; }
+.fmap .node .acct-row input.last4 { flex: 0 0 auto; width: 52px; text-align: center; letter-spacing: 0.1em; }
 .fmap .node .acct-row input::placeholder { color: var(--muted); font-weight: 400; }
 .fmap .node .acct { display: none; font-size: 12px; font-weight: 700; margin-top: 4px; }
 .plan-card.exporting .fmap .acct-row { display: none; }
