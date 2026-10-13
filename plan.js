@@ -60,17 +60,25 @@
 
   // ---------------------------------------------------------
   //  ACCOUNTS
-  //  Couples get one Spending account per partner, in each person's own name,
-  //  matching the Money Flywheel Mapper. Everything else is shared.
+  //  Couples choose how Spending is arranged: one account per partner in each
+  //  person's own name (matching the Money Flywheel Mapper), a single shared
+  //  "Joint Spending" account, or both. Everything else is shared.
   // ---------------------------------------------------------
   const shared = (s) => s.partner === "shared";
+  // How a couple arranges Spending: "separate" (one account each — the default),
+  // "joint" (a single shared account), or "both" (one each PLUS a joint account).
+  // Solo plans always have a single Spending account.
+  const spendMode = (s) => (shared(s) ? (s.spendMode === "joint" || s.spendMode === "both" ? s.spendMode : "separate") : "solo");
   function spendingAccounts(s) {
     const B = C.buckets.spending;
     if (!shared(s)) return [{ id: "spending", key: "spending", name: B.name, type: B.type }];
-    return [
-      { id: "spending", key: "spending", name: `${B.name} · ${trim(s.name) || "You"}`, type: B.type },
-      { id: "spending2", key: "spending", name: `${B.name} · ${trim(s.partnerName) || "Partner"}`, type: B.type },
-    ];
+    const you =   { id: "spending",      key: "spending", name: `${B.name} · ${trim(s.name) || "You"}`,            type: B.type };
+    const them =  { id: "spending2",     key: "spending", name: `${B.name} · ${trim(s.partnerName) || "Partner"}`, type: B.type };
+    const joint = { id: "spendingJoint", key: "spending", name: `Joint ${B.name}`,                                 type: B.type };
+    const mode = spendMode(s);
+    if (mode === "joint") return [joint];
+    if (mode === "both") return [you, them, joint];
+    return [you, them];
   }
   function accounts(s) {
     const B = C.buckets;
@@ -211,5 +219,5 @@
   const csv = (s) => table(s).map((row) => row.map(csvCell).join(",")).join("\r\n");
   const tsv = (s) => table(s).map((row) => row.map((v) => String(v == null ? "" : v).replace(/[\t\n]/g, " ")).join("\t")).join("\n");
 
-  window.PLANNER = { money, round2, up, fmt, fmt0, fmtSmart, pct, fmtPct, trim, possessive, factor, upcomingMonthly, upcomingListTotal, upcomingSuggested, upcomingStuck, upcomingAmount, onCard, cardTotal, monthlyOf, sumMonthly, shared, spendingAccounts, accounts, planTitle, totals, arrows, plan, accountLabel, table, csv, tsv };
+  window.PLANNER = { money, round2, up, fmt, fmt0, fmtSmart, pct, fmtPct, trim, possessive, factor, upcomingMonthly, upcomingListTotal, upcomingSuggested, upcomingStuck, upcomingAmount, onCard, cardTotal, monthlyOf, sumMonthly, shared, spendMode, spendingAccounts, accounts, planTitle, totals, arrows, plan, accountLabel, table, csv, tsv };
 })();
