@@ -60,25 +60,22 @@
 
   // ---------------------------------------------------------
   //  ACCOUNTS
-  //  Couples choose how Spending is arranged: one account per partner in each
-  //  person's own name (matching the Money Flywheel Mapper), a single shared
-  //  "Joint Spending" account, or both. Everything else is shared.
+  //  Couples get one Spending account per partner, in each person's own name
+  //  (matching the Money Flywheel Mapper), and can optionally add a shared
+  //  "Joint Spending" account on top. Everything else is shared.
   // ---------------------------------------------------------
   const shared = (s) => s.partner === "shared";
-  // How a couple arranges Spending: "separate" (one account each — the default),
-  // "joint" (a single shared account), or "both" (one each PLUS a joint account).
-  // Solo plans always have a single Spending account.
-  const spendMode = (s) => (shared(s) ? (s.spendMode === "joint" || s.spendMode === "both" ? s.spendMode : "separate") : "solo");
+  // How a couple arranges Spending. Couples always keep one Spending account each;
+  // "separate" is just those two (the default), "both" adds a shared Joint Spending
+  // account (his, hers AND ours). Solo plans always have a single Spending account.
+  const spendMode = (s) => (shared(s) ? (s.spendMode === "both" ? "both" : "separate") : "solo");
   function spendingAccounts(s) {
     const B = C.buckets.spending;
     if (!shared(s)) return [{ id: "spending", key: "spending", name: B.name, type: B.type }];
     const you =   { id: "spending",      key: "spending", name: `${B.name} · ${trim(s.name) || "You"}`,            type: B.type };
     const them =  { id: "spending2",     key: "spending", name: `${B.name} · ${trim(s.partnerName) || "Partner"}`, type: B.type };
     const joint = { id: "spendingJoint", key: "spending", name: `Joint ${B.name}`,                                 type: B.type };
-    const mode = spendMode(s);
-    if (mode === "joint") return [joint];
-    if (mode === "both") return [you, them, joint];
-    return [you, them];
+    return spendMode(s) === "both" ? [you, them, joint] : [you, them];
   }
   function accounts(s) {
     const B = C.buckets;

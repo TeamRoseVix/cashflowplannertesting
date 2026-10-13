@@ -374,9 +374,8 @@
     const them = esc(P.trim(state.partnerName) || "your partner");
     const mode = P.spendMode(state);
     const opts = [
-      { v: "separate", t: "Separate", s: `A Spending account each — ${you} and ${them}` },
-      { v: "joint",    t: "Joint",    s: "One shared Spending account you both use" },
-      { v: "both",     t: "Both",     s: `${you} and ${them} each have one, plus a joint account` },
+      { v: "separate", t: "His & hers", s: `A Spending account each — ${you} and ${them}` },
+      { v: "both",     t: "His, hers & ours", s: `An account each, plus a shared Joint Spending account` },
     ];
     return `<div class="spendmode">
         <p class="spendmode-q">How do you want to split Spending?</p>

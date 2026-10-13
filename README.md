@@ -40,13 +40,13 @@ each screen; the live training does that.
    twice. Every bill needs its "When" (and the card line its due date) before
    Continue works; missing ones turn coral.
 4. **Spending.** One monthly amount, with the weekly equivalent shown underneath and
-   a running "what's left after Bills" line. Couples pick how to split Spending:
-   **Separate** (one account each, in each person's name — the default), **Joint**
-   (one shared "Joint Spending" account), or **Both** (an account each plus a joint
-   account). Switching keeps any amounts already typed. Each account is its own box on
-   the map and row in the plan/CSV; the Spending total is their sum. If Spending is more
-   than what is left after Bills, the line turns coral and Continue refuses until it is
-   lowered.
+   a running "what's left after Bills" line. Couples always get one Spending account
+   each (in each person's name) and pick whether to add a shared one: **His & hers**
+   (two accounts — the default) or **His, hers & ours** (those two plus a shared
+   "Joint Spending" account). Switching keeps any amounts already typed. Each account
+   is its own box on the map and row in the plan/CSV; the Spending total is their sum.
+   If Spending is more than what is left after Bills, the line turns coral and Continue
+   refuses until it is lowered.
 5. **Upcoming.** A general cushion, not a ledger. The list is a thinking aid: each
    row is what for and roughly how much per year, divided by 12. Under it, one
    fixed number, **Your Upcoming transfer**, prefilled with the list's monthly total
