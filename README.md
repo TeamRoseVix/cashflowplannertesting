@@ -41,9 +41,9 @@ each screen; the live training does that.
    Continue works; missing ones turn coral.
 4. **Spending.** One monthly amount, with the weekly equivalent shown underneath and
    a running "what's left after Bills" line. Couples always get one Spending account
-   each (in each person's name) and pick whether to add a shared one: **His & hers**
-   (two accounts — the default) or **His, hers & ours** (those two plus a shared
-   "Joint Spending" account). Switching keeps any amounts already typed. Each account
+   each (in each person's name) and pick whether to add a shared one: **"Name +
+   Partner"** (two accounts — the default) or **"Name + Partner + Joint"** (those two
+   plus a shared "Joint Spending" account). Switching keeps any amounts already typed. Each account
    is its own box on the map and row in the plan/CSV; the Spending total is their sum.
    If Spending is more than what is left after Bills, the line turns coral and Continue
    refuses until it is lowered.
